@@ -90,8 +90,8 @@ with open("posts_train.txt", mode = 'r') as csv_file:
     if(float(row['Hour 1']) != 25 and float(row['Hour 2']) != 0 and float(row['Hour 3']) != 0): #ignore people who don't post often
       if(float(row['Lat']) != 0.0 or float(row['Lon']) != 0.0): #ignore people on the Null Island
         X_tr.append([float(row['Hour 1']), float(row['Hour 2']), float(row['Hour 3']), float(row['Posts'])])
-        y_tr_lat.append([float(row['Lat'])])
-        y_tr_lon.append([float(row['Lon'])])
+        y_tr_lat.append(float(row['Lat']))
+        y_tr_lon.append(float(row['Lon']))
 
 with open('posts_test.txt', mode='r') as csv_file:
   csv_reader = csv.DictReader(csv_file)
