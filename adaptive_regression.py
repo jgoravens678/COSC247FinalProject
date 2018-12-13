@@ -18,7 +18,6 @@ from abc import ABC, abstractmethod
 graph_data = []
 import csv
 
-#Python's being a bitch so we move this to the top
 class Regressor(ABC):
   @abstractmethod
   def fit(self, X, y):
@@ -87,9 +86,9 @@ numerical_data = [X_tr, X_te]
 with open("posts_train.txt", mode = 'r') as csv_file:
   csv_reader = csv.DictReader(csv_file)
   for row in csv_reader:
-    if(float(row['Hour 1']) != 25 and float(row['Hour 2']) != 0 and float(row['Hour 3']) != 0): #ignore people who don't post often
+    if(float(row['Hour1']) != 25 and float(row['Hour2']) != 0 and float(row['Hour3']) != 0): #ignore people who don't post often
       if(float(row['Lat']) != 0.0 or float(row['Lon']) != 0.0): #ignore people on the Null Island
-        X_tr.append([float(row['Hour 1']), float(row['Hour 2']), float(row['Hour 3']), float(row['Posts'])])
+        X_tr.append([float(row['Hour1']), float(row['Hour2']), float(row['Hour3']), float(row['Posts'])])
         y_tr_lat.append(float(row['Lat']))
         y_tr_lon.append(float(row['Lon']))
 
@@ -97,9 +96,9 @@ with open('posts_test.txt', mode='r') as csv_file:
   csv_reader = csv.DictReader(csv_file)
   for row in csv_reader:
     #If the user doesn't have an nth most frequent posting hour, change it to something reasonable (i.e the next most frequent hour of posting)
-    hour_1 = int(row['Hour 1'])
-    hour_2 = int(row['Hour 2'])
-    hour_3 = int(row['Hour 3'])
+    hour_1 = int(row['Hour1'])
+    hour_2 = int(row['Hour2'])
+    hour_3 = int(row['Hour3'])
 
     if(hour_2 == 25):
       hour_2 = hour_1
@@ -107,7 +106,7 @@ with open('posts_test.txt', mode='r') as csv_file:
     elif(hour_3 == 25):
       hour_3 = hour_2
 
-    X_te.append([float(row['Hour 1']), float(hour_2), float(hour_3), float(row['Posts'])])
+    X_te.append([float(row['Hour1']), float(hour_2), float(hour_3), float(row['Posts'])])
 
 with open('answer.txt', mode = 'r') as csv_file:
   csv_reader = csv.DictReader(csv_file)
@@ -117,8 +116,10 @@ with open('answer.txt', mode = 'r') as csv_file:
     ids_te.append(float(row['Id']))
 
 #convert data to numpy arrays
-for data_matrix in numerical_data:
-  data_matrix = np.array(data_matrix)
+#for d in numerical_data:
+#  d = np.array(d)
+X_tr = np.array(X_tr)
+X_te = np.array(X_te)
 
 #Mess of kernel functions
 def latitude_kernel(mean, test_value):
